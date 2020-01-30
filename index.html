@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>WWF³</title>
+  <style>
+  .calculator {
+    margin-top: 10%;
+  }
+  </style>
+</head>
+<body>
+  <div class="container calculator">
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <input id="karnivore" type="number" min="0" placeholder="0" step="1" class="form-control" aria-label="Menschen die Wurst essen">
+          <div class="input-group-append">
+            <span class="input-group-text">Wurst-Esser</span>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input id="vegies" type="number" min="0" step="1" placeholder="0" class="form-control" aria-label="Menschen die keine Wurst essen">
+          <div class="input-group-append">
+            <span class="input-group-text">Vegies</span>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input id="bier" type="number" min="0" step="1" placeholder="0" class="form-control" aria-label="Menschen die Bier trinken">
+          <div class="input-group-append">
+            <span class="input-group-text">Bier-Trinker</span>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input id="milch" type="number" min="0" step="1" placeholder="0" class="form-control" aria-label="Menschen die alkoholfreies Bier trinken">
+          <div class="input-group-append">
+            <span class="input-group-text">Milch-Trinker</span>
+          </div>
+        </div>
+        <button id="btnCalc" type="button" class="btn btn-primary float-right" href="#">Calculate</button>
+      </div>
+
+      <div class="col">
+        <ul class="list-group" id="shopping">
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script>
+  $(document).ready(function() {
+    var shopping_list = $('#shopping')
+    var wurst_stk_pp = 3.0
+    var brezn_stk_pp = 1.66
+    var senf_g_pp = 39.99
+    var butter_g_pp = 25.0
+    var bier_l_pp = 0.5
+    var milch_l_pp = 0.5
+    
+    function getInt(element_id) {
+      var value = $(element_id).val();
+      if (isNaN(value) || !value) {
+        return 0;
+      }
+      return parseInt(value);
+    }
+
+
+    function shopping_list_item(text, value, unit) {
+      value = value.toFixed(2)
+      return '<li class="list-group-item d-flex justify-content-between align-items-center">' + text + '<span>' + value + ' ' + unit + '</span></li>'
+    }
+
+
+    function build_shopping_list() {
+      var all = getInt('#karnivore') + getInt('#vegie')
+      shopping_list.empty()
+      shopping_list.append(shopping_list_item('Wurst:', getInt('#karnivore') * wurst_stk_pp, 'Stk.'))
+      shopping_list.append(shopping_list_item('Vegie:', getInt('#vegies') * wurst_stk_pp, 'Stk.'))
+
+      shopping_list.append(shopping_list_item('Brezeln:', all * brezn_stk_pp, 'Stk.'))
+      shopping_list.append(shopping_list_item('Senf:', all * senf_g_pp, 'g'))
+      shopping_list.append(shopping_list_item('Butter:', all * butter_g_pp, 'g'))
+
+      shopping_list.append(shopping_list_item('Bier:', getInt('#bier') * bier_l_pp, 'l'))
+      shopping_list.append(shopping_list_item('Milch:', getInt('#milch') * milch_l_pp, 'l'))
+    }
+
+    $('#btnCalc').click(build_shopping_list)
+  });
+  </script>
+</body>
+</html>
